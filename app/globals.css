@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 210 100% 100%;
+  --foreground: 210 50% 20%;
+  --card: 210 100% 100%;
+  --card-foreground: 210 50% 20%;
+  --popover: 210 100% 100%;
+  --popover-foreground: 210 50% 20%;
+  --primary: 210 100% 95%;
+  --primary-foreground: 210 50% 20%;
+  --secondary: 210 50% 96.1%;
+  --secondary-foreground: 210 50% 20%;
+  --muted: 210 50% 96.1%;
+  --muted-foreground: 210 50% 45.1%;
+  --accent: 210 100% 95%;
+  --accent-foreground: 210 50% 20%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 210 50% 89.8%;
+  --input: 210 50% 89.8%;
+  --ring: 210 50% 20%;
+  --radius: 0.75rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+.hero-pattern {
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e6f3ff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.property-card {
+  @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+}
+
+.skeleton {
+  @apply animate-pulse bg-gray-200 rounded;
+}
