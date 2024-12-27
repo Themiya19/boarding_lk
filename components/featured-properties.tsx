@@ -29,6 +29,20 @@ export function FeaturedProperties() {
             <PropertyCard key={property.id} property={property} index={index} />
           ))}
         </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="flex justify-center mt-12"
+        >
+          <Button
+            className="text-base bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 shadow-md hover:shadow-lg px-8 py-6 rounded-full"
+          >
+            Post Your Property For Free
+          </Button>
+        </motion.div>
       </motion.div>
     </section>
   );

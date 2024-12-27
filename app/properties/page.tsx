@@ -1,16 +1,81 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Search } from 'lucide-react';
+import { useState, useEffect, useMemo } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { PropertyCard } from '@/components/property-card';
+import { PropertyFilterSection } from './property-filter';
+import { Button } from '@/components/ui/button';
+import { Star, Sparkles, Ban, Shield } from 'lucide-react';
+import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut"
+    }
+  },
+  exit: { 
+    opacity: 0, 
+    y: -20,
+    transition: {
+      duration: 0.5,
+      ease: "easeIn"
+    }
+  }
+};
+
+const stagger = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const gridVariants = {
+  animate: {
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.3
+    }
+  }
+};
+
+const itemVariants = {
+  initial: { opacity: 0, scale: 0.95 },
+  animate: { 
+    opacity: 1, 
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      ease: [0.4, 0, 0.2, 1]
+    }
+  },
+  exit: { 
+    opacity: 0, 
+    scale: 0.95,
+    transition: {
+      duration: 0.4,
+      ease: [0.4, 0, 1, 1]
+    }
+  }
+};
 
 export default function PropertiesPage() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const filter = searchParams.get('filter');
+  
+  // Get active filters from URL
+  const activeFilters = useMemo(() => {
+    const filtersParam = searchParams.get('filters');
+    return filtersParam ? filtersParam.split(',').filter(Boolean) : [];
+  }, [searchParams]);
 
   // Example property data matching the Property type
   const properties = [
@@ -85,75 +150,196 @@ export default function PropertiesPage() {
     },
   ];
 
-  // Initialize filteredProperties with all properties
-  const [filteredProperties, setFilteredProperties] = useState(properties);
+  // Memoize filtered properties to prevent unnecessary recalculations
+  const filteredProperties = useMemo(() => {
+    if (activeFilters.length === 0) return properties;
 
-  // Filter properties when filter or search query changes
-  useEffect(() => {
-    let filtered = [...properties];
+    return properties.filter(property => {
+      return activeFilters.every(filter => {
+        switch (filter) {
+          case 'no-deposit':
+            return !property.deposit;
+          case 'with-deposit':
+            return property.deposit;
+          case 'featured':
+            return property.featured;
+          case 'new-listings':
+            return property.isNew;
+          default:
+            return true;
+        }
+      });
+    });
+  }, [activeFilters]);
 
-    // Apply filters based on URL parameter
-    if (filter) {
-      switch (filter) {
-        case 'no-deposit':
-          filtered = filtered.filter(property => !property.deposit);
-          break;
-        case 'with-deposit':
-          filtered = filtered.filter(property => property.deposit);
-          break;
-        case 'featured':
-          filtered = filtered.filter(property => property.featured);
-          break;
-        case 'new-listings':
-          filtered = filtered.filter(property => property.isNew);
-          break;
-        default:
-          break;
-      }
+  const handleFilterClick = (filterValue: string) => {
+    // Create a new URLSearchParams instance
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    const currentFilters = newSearchParams.get('filters')?.split(',').filter(Boolean) || [];
+    
+    let newFilters: string[];
+    if (currentFilters.includes(filterValue)) {
+      // Remove the filter
+      newFilters = currentFilters.filter(f => f !== filterValue);
+    } else {
+      // Add the filter
+      newFilters = [...currentFilters, filterValue];
     }
 
-    // Apply search query if exists
-    if (searchQuery) {
-      filtered = filtered.filter(property => 
-        property.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        property.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        property.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-      );
+    // Update URL
+    if (newFilters.length > 0) {
+      newSearchParams.set('filters', newFilters.join(','));
+      router.push(`/properties?${newSearchParams.toString()}`);
+    } else {
+      router.push('/properties');
     }
-
-    setFilteredProperties(filtered);
-  }, [filter, searchQuery]); // Remove properties from dependency array since it's static
+  };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Search Section */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-6">Find Your Perfect Home</h1>
-        <div className="flex gap-4 max-w-3xl">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-            <Input
-              type="text"
-              placeholder="Search by location or property type..."
-              className="pl-10 w-full"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-          <Button className="px-6">Search</Button>
+    <motion.div 
+      initial="initial"
+      animate="animate"
+      className="container mx-auto px-4 py-8"
+    >
+      {/* Header and Filter Section */}
+      <motion.div 
+        variants={fadeInUp}
+        className="mb-8"
+      >
+        <motion.h1 
+          variants={fadeInUp}
+          className="text-3xl font-bold mb-6"
+        >
+          Find Your Perfect Home
+        </motion.h1>
+        <motion.div variants={fadeInUp}>
+          <PropertyFilterSection />
+        </motion.div>
+      </motion.div>
+
+      {/* Pre-filtered Categories */}
+      <motion.div 
+        variants={fadeInUp}
+        className="mb-12"
+      >
+        <div className="flex items-center justify-between mb-4">
+          <motion.h2 
+            variants={fadeInUp}
+            className="text-lg font-semibold text-gray-800"
+          >
+            Quick Filters
+          </motion.h2>
+          <AnimatePresence>
+            {activeFilters.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{
+                  duration: 0.4,
+                  ease: "easeInOut"
+                }}
+              >
+                <Button
+                  variant="ghost"
+                  className="text-sm text-gray-500 hover:text-gray-700"
+                  onClick={() => router.push('/properties')}
+                >
+                  Clear all filters
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-      </div>
+        <motion.div 
+          variants={stagger}
+          className="grid grid-cols-2 md:grid-cols-4 gap-4"
+        >
+          {[
+            {
+              id: 'featured',
+              icon: <Star className="h-5 w-5" />,
+              title: 'Featured',
+              description: 'Premium listings'
+            },
+            {
+              id: 'new-listings',
+              icon: <Sparkles className="h-5 w-5" />,
+              title: 'New Listings',
+              description: 'Fresh properties'
+            },
+            {
+              id: 'no-deposit',
+              icon: <Ban className="h-5 w-5" />,
+              title: 'No Deposit',
+              description: 'Move in quickly'
+            },
+            {
+              id: 'with-deposit',
+              icon: <Shield className="h-5 w-5" />,
+              title: 'With Deposit',
+              description: 'Secure booking'
+            }
+          ].map((filter) => (
+            <motion.div
+              key={filter.id}
+              variants={fadeInUp}
+              whileHover={{ 
+                scale: 1.02, 
+                transition: { duration: 0.3 } 
+              }}
+              whileTap={{ 
+                scale: 0.98,
+                transition: { duration: 0.2 } 
+              }}
+            >
+              <Button
+                variant="outline"
+                className={cn(
+                  "h-auto w-full py-4 px-6 flex flex-col items-center gap-2 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200",
+                  activeFilters.includes(filter.id) && "bg-blue-50 text-blue-600 border-blue-200 ring-2 ring-blue-200"
+                )}
+                onClick={() => handleFilterClick(filter.id)}
+              >
+                {filter.icon}
+                <span className="text-sm font-medium">{filter.title}</span>
+                <span className="text-xs text-gray-500">{filter.description}</span>
+              </Button>
+            </motion.div>
+          ))}
+        </motion.div>
+      </motion.div>
 
       {/* Properties Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <motion.div 
+        variants={gridVariants}
+        initial="initial"
+        animate="animate"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
         {filteredProperties.map((property, index) => (
-          <PropertyCard 
-            key={property.id} 
-            property={property}
-            index={index}
-          />
+          <motion.div
+            key={property.id}
+            variants={itemVariants}
+            layout
+            layoutId={`property-${property.id}`}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={{
+              layout: {
+                duration: 0.4,
+                ease: "easeInOut"
+              }
+            }}
+          >
+            <PropertyCard 
+              property={property}
+              index={index}
+            />
+          </motion.div>
         ))}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 } 

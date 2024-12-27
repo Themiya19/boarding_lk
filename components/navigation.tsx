@@ -39,7 +39,7 @@ export function Navigation() {
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-3">
               <Home className="h-7 w-7 text-blue-500" />
-              <span className="font-bold text-xl bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-transparent">
+              <span className="font-bold text-xl text-sky-600">
                 Boarding.lk
               </span>
             </Link>
@@ -47,54 +47,18 @@ export function Navigation() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  className={`text-base transition-colors group ${
-                    pathname?.startsWith('/properties') 
-                      ? 'bg-blue-50 text-blue-700' 
-                      : 'hover:bg-blue-50 hover:text-blue-700'
-                  }`}
-                >
-                  Properties
-                  <ChevronDown className="ml-1 h-4 w-4 transition-transform group-data-[state=open]:rotate-180" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-48 bg-white/95 backdrop-blur-lg">
-                <Link href="/properties">
-                  <DropdownMenuItem className={`text-base cursor-pointer ${
-                    pathname === '/properties' ? 'bg-blue-50 text-blue-700' : 'hover:bg-blue-50 hover:text-blue-700'
-                  }`}>
-                    All Properties
-                  </DropdownMenuItem>
-                </Link>
-                <Link href="/properties?filter=no-deposit">
-                  <DropdownMenuItem className={`text-base cursor-pointer ${
-                    pathname === '/properties' && new URLSearchParams(window?.location?.search).get('filter') === 'no-deposit'
-                      ? 'bg-blue-50 text-blue-700' 
-                      : 'hover:bg-blue-50 hover:text-blue-700'
-                  }`}>
-                    No Deposit
-                  </DropdownMenuItem>
-                </Link>
-                <Link href="/properties?filter=with-deposit">
-                  <DropdownMenuItem className="text-base cursor-pointer hover:bg-blue-50 hover:text-blue-700">
-                    With Deposit
-                  </DropdownMenuItem>
-                </Link>
-                <Link href="/properties?filter=featured">
-                  <DropdownMenuItem className="text-base cursor-pointer hover:bg-blue-50 hover:text-blue-700">
-                    Featured
-                  </DropdownMenuItem>
-                </Link>
-                <Link href="/properties?filter=new-listings">
-                  <DropdownMenuItem className="text-base cursor-pointer hover:bg-blue-50 hover:text-blue-700">
-                    New Listings
-                  </DropdownMenuItem>
-                </Link>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Link href="/properties">
+              <Button 
+                variant="ghost" 
+                className={`text-base transition-colors ${
+                  isActive('/properties') 
+                    ? 'bg-blue-50 text-blue-700' 
+                    : 'hover:bg-blue-50 hover:text-blue-700'
+                }`}
+              >
+                Properties
+              </Button>
+            </Link>
             <Link href="/proprietor">
               <Button 
                 variant="ghost" 
@@ -119,8 +83,37 @@ export function Navigation() {
                 Boarder
               </Button>
             </Link>
-            <Button className="text-base bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 transition-all duration-200 shadow-md hover:shadow-lg">
-              Sign In
+            <Link href="/about">
+              <Button 
+                variant="ghost" 
+                className={`text-base transition-colors ${
+                  isActive('/about') 
+                    ? 'bg-blue-50 text-blue-700' 
+                    : 'hover:bg-blue-50 hover:text-blue-700'
+                }`}
+              >
+                About Us
+              </Button>
+            </Link>
+            <Link href="/contact">
+              <Button 
+                variant="ghost" 
+                className={`text-base transition-colors ${
+                  isActive('/contact') 
+                    ? 'bg-blue-50 text-blue-700' 
+                    : 'hover:bg-blue-50 hover:text-blue-700'
+                }`}
+              >
+                Contact Us
+              </Button>
+            </Link>
+            <Link href="/post-ad">
+              <Button className="text-base border border-blue-400 text-blue-500 hover:bg-blue-400 hover:text-white px-6 font-medium transition-all duration-200">
+                Post Your Ad
+              </Button>
+            </Link>
+            <Button className="text-base bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 shadow-md hover:shadow-lg">
+              Log In
             </Button>
           </div>
 
@@ -134,48 +127,18 @@ export function Navigation() {
               </SheetTrigger>
               <SheetContent className="bg-white/95 backdrop-blur-lg">
                 <div className="flex flex-col space-y-4 mt-8">
-                  <div className="space-y-2">
-                    <div className="font-medium text-base px-4 py-2">Properties</div>
-                    <Link href="/properties">
-                      <Button 
-                        variant="ghost" 
-                        className={`w-full justify-start text-base pl-8 ${
-                          pathname === '/properties' 
-                            ? 'bg-blue-50 text-blue-700' 
-                            : 'hover:bg-blue-50 hover:text-blue-700'
-                        }`}
-                      >
-                        All Properties
-                      </Button>
-                    </Link>
-                    <Link href="/properties?filter=no-deposit">
-                      <Button 
-                        variant="ghost" 
-                        className={`w-full justify-start text-base pl-8 ${
-                          pathname === '/properties' && new URLSearchParams(window?.location?.search).get('filter') === 'no-deposit'
-                            ? 'bg-blue-50 text-blue-700' 
-                            : 'hover:bg-blue-50 hover:text-blue-700'
-                        }`}
-                      >
-                        No Deposit
-                      </Button>
-                    </Link>
-                    <Link href="/properties?filter=with-deposit">
-                      <Button variant="ghost" className="w-full justify-start text-base hover:bg-blue-50 hover:text-blue-700 pl-8">
-                        With Deposit
-                      </Button>
-                    </Link>
-                    <Link href="/properties?filter=featured">
-                      <Button variant="ghost" className="w-full justify-start text-base hover:bg-blue-50 hover:text-blue-700 pl-8">
-                        Featured
-                      </Button>
-                    </Link>
-                    <Link href="/properties?filter=new-listings">
-                      <Button variant="ghost" className="w-full justify-start text-base hover:bg-blue-50 hover:text-blue-700 pl-8">
-                        New Listings
-                      </Button>
-                    </Link>
-                  </div>
+                  <Link href="/properties" className="w-full">
+                    <Button 
+                      variant="ghost" 
+                      className={`w-full justify-start text-base ${
+                        isActive('/properties') 
+                          ? 'bg-blue-50 text-blue-700' 
+                          : 'hover:bg-blue-50 hover:text-blue-700'
+                      }`}
+                    >
+                      Properties
+                    </Button>
+                  </Link>
                   <Link href="/proprietor" className="w-full">
                     <Button 
                       variant="ghost" 
@@ -200,8 +163,37 @@ export function Navigation() {
                       Boarder
                     </Button>
                   </Link>
-                  <Button className="w-full justify-start text-base bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900">
-                    Sign In
+                  <Link href="/about" className="w-full">
+                    <Button 
+                      variant="ghost" 
+                      className={`w-full justify-start text-base ${
+                        isActive('/about') 
+                          ? 'bg-blue-50 text-blue-700' 
+                          : 'hover:bg-blue-50 hover:text-blue-700'
+                      }`}
+                    >
+                      About Us
+                    </Button>
+                  </Link>
+                  <Link href="/contact" className="w-full">
+                    <Button 
+                      variant="ghost" 
+                      className={`w-full justify-start text-base ${
+                        isActive('/contact') 
+                          ? 'bg-blue-50 text-blue-700' 
+                          : 'hover:bg-blue-50 hover:text-blue-700'
+                      }`}
+                    >
+                      Contact Us
+                    </Button>
+                  </Link>
+                  <Link href="/post-ad" className="w-full">
+                    <Button className="w-full justify-start text-base border border-blue-400 text-blue-500 hover:bg-blue-400 hover:text-white font-medium transition-all duration-200">
+                      Post Your Ad
+                    </Button>
+                  </Link>
+                  <Button className="w-full justify-start text-base bg-blue-600 text-white hover:bg-blue-700">
+                    Log In
                   </Button>
                 </div>
               </SheetContent>
