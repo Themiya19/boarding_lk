@@ -2,13 +2,20 @@ import { properties } from "@/lib/data/properties";
 import { BackButton } from "@/components/back-button";
 import { BookingForm } from "@/components/booking-form";
 
+type Props = {
+  params: {
+    id: string;
+  };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
 export function generateStaticParams() {
   return properties.map((property) => ({
     id: property.id.toString(),
   }));
 }
 
-export default function BookPropertyPage({ params }: { params: { id: string } }) {
+export default function BookPropertyPage({ params, searchParams }: Props) {
   const property = properties.find((p) => p.id === Number(params.id));
 
   if (!property) {
