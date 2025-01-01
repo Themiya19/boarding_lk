@@ -16,7 +16,7 @@ export function FeaturedListings() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-black">
             Featured Boarding Places
           </h2>
           <p className="text-xl text-gray-600">

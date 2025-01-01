@@ -57,7 +57,7 @@ export function Hero() {
               transition={{ duration: 0.8 }}
               className="max-w-2xl text-center z-10"
             >
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 text-sky-600">
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 text-[#0066FF]">
                 Find Your Next Home
                 <br />
                 <span className="text-4xl md:text-5xl">No Deposit Required</span>

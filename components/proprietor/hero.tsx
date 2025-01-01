@@ -34,7 +34,7 @@ export function ProprietorHero() {
             transition={{ duration: 0.8 }}
             className="max-w-4xl"
           >
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-[#0066FF]">
               List Your Property
               <br />
               <span className="text-4xl md:text-5xl">With Zero Commission</span>
@@ -57,7 +57,7 @@ export function ProprietorHero() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Button className="bg-sky-500 hover:bg-sky-600 text-white text-lg px-8 py-6 rounded-full">
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6 rounded-full">
                 List Your Property
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>

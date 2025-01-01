@@ -36,7 +36,7 @@ export function WhyChooseUs() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="text-xl md:text-5xl font-bold mb-6 text-sky-600">
+              <h2 className="text-xl md:text-5xl font-bold mb-6 text-[#0066FF]">
                 Why Choose Boarding.lk?
               </h2>
             </motion.div>

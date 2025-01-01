@@ -34,7 +34,7 @@ export function BenefitsSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-black">
             Why Property Owners Choose Us
           </h2>
           <p className="text-xl text-gray-600">
@@ -52,7 +52,9 @@ export function BenefitsSection() {
               className="text-center"
             >
               <div className="flex justify-center mb-6">
-                <benefit.icon className="h-12 w-12 text-sky-500" />
+                <div className="w-16 h-16 rounded-xl flex items-center justify-center">
+                  <benefit.icon className="h-12 w-12 text-blue-600" />
+                </div>
               </div>
               <h3 className="text-xl font-bold mb-4">{benefit.title}</h3>
               <p className="text-gray-600">{benefit.description}</p>

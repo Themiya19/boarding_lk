@@ -64,7 +64,7 @@ export function WhyChooseUs() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow"
             >
-              <feature.icon className="h-8 w-8 text-sky-500 mb-4" />
+              <feature.icon className="h-8 w-8 text-blue-600 mb-4" />
               <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
               <p className="text-gray-600">{feature.description}</p>
             </motion.div>

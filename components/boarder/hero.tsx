@@ -34,7 +34,7 @@ export function BoarderHero() {
             transition={{ duration: 0.8 }}
             className="max-w-4xl"
           >
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-sky-600">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-[#0066FF]">
               Find Your Perfect
               <br />
               <span className="text-4xl md:text-5xl">Home Away From Home</span>

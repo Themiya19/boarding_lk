@@ -49,7 +49,7 @@ export function MarketInsights() {
               transition={{ duration: 0.6, delay: index * 0.2 }}
               className="text-center"
             >
-              <stat.icon className="h-12 w-12 text-sky-500 mx-auto mb-4" />
+              <stat.icon className="h-12 w-12 text-blue-600 mx-auto mb-4" />
               <div className="text-4xl font-bold mb-2">{stat.number}</div>
               <div className="text-gray-600">{stat.label}</div>
             </motion.div>
