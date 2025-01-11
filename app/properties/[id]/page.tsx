@@ -1,28 +1,19 @@
 import { Metadata } from 'next';
 import { properties } from "@/lib/data/properties";
 import { PropertyDetails } from "@/components/property-details";
+import { notFound } from 'next/navigation';
 
-export function generateStaticParams() {
-  return properties.map((property) => ({
-    id: property.id.toString(),
-  }));
-}
-
-export async function generateMetadata({ 
-  params 
-}: { 
-  params: { id: string } 
-}): Promise<Metadata> {
-  // Ensure params is resolved
-  const id = await Promise.resolve(params.id);
-  const property = properties.find((p) => p.id === Number(id));
-  
-  return {
-    title: property ? `${property.title} - BoardingBuddy` : 'Property Not Found',
-    description: property ? `View details for ${property.title} at ${property.location}` : undefined,
-  };
-}
+export const metadata: Metadata = {
+  title: 'Property Details - BoardingBuddy',
+  description: 'View property details',
+};
 
 export default function PropertyPage() {
-  return <PropertyDetails />;
+  const property = properties[0]; // For demonstration, showing the first property
+  
+  if (!property) {
+    notFound();
+  }
+
+  return <PropertyDetails property={property} />;
 }

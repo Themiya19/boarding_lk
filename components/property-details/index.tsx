@@ -1,6 +1,5 @@
 "use client";
 
-import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { properties } from "@/lib/data/properties";
 import { PropertyAmenities } from "./property-amenities";
@@ -11,15 +10,13 @@ import { PropertyFeatures } from "./property-features";
 import { PropertyReviews } from "./property-reviews";
 import { BackButton } from "@/components/back-button";
 
-export function PropertyDetails() {
-  const params = useParams();
-  const property = properties.find((p) => p.id === Number(params.id));
+type Property = typeof properties[0];
+interface PropertyDetailsProps {
+  property: Property;
+}
 
-  if (!property) {
-    return <div>Property not found</div>;
-  }
-
-  const averageRating = property.reviews.reduce((acc, review) => acc + review.rating, 0) / property.reviews.length;
+export function PropertyDetails({ property }: PropertyDetailsProps) {
+  const averageRating = property.reviews.reduce((acc, review: { rating: number }) => acc + review.rating, 0) / property.reviews.length;
 
   return (
     <div className="min-h-screen bg-gray-50">

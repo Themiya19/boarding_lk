@@ -1,22 +1,15 @@
 import { properties } from "@/lib/data/properties";
 import { BackButton } from "@/components/back-button";
 import { BookingForm } from "@/components/booking-form";
+import { Metadata } from 'next';
 
-type Props = {
-  params: {
-    id: string;
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
+export const metadata: Metadata = {
+  title: 'Book Property - BoardingBuddy',
+  description: 'Book your stay with us',
 };
 
-export function generateStaticParams() {
-  return properties.map((property) => ({
-    id: property.id.toString(),
-  }));
-}
-
-export default function BookPropertyPage({ params, searchParams }: Props) {
-  const property = properties.find((p) => p.id === Number(params.id));
+export default function BookPropertyPage() {
+  const property = properties[0]; // For demonstration, showing the first property
 
   if (!property) {
     return <div>Property not found</div>;
