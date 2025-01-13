@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Menu, ChevronDown, LogOut, User, Home as HomeIcon, FileText } from 'lucide-react';
@@ -23,8 +23,15 @@ import {
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const [userType, setUserType] = useState<string | null>(null);
   const pathname = usePathname();
   const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setUserType(localStorage.getItem('userType'));
+    }
+  }, []);
 
   const isActive = (path: string) => {
     if (path === '/properties' && pathname?.startsWith('/properties')) return true;
@@ -135,6 +142,7 @@ export function Navigation() {
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium leading-none">{session.user?.name}</p>
                       <p className="text-xs leading-none text-muted-foreground">{session.user?.email}</p>
+                      <p className="text-xs leading-none text-muted-foreground capitalize">{userType}</p>
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
@@ -144,22 +152,29 @@ export function Navigation() {
                       <span>Profile</span>
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer focus:bg-blue-50 py-2" asChild>
-                    <Link href="/my-rentals" className="flex items-center">
-                      <HomeIcon className="mr-2 h-4 w-4" />
-                      <span>My Rentals</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer focus:bg-blue-50 py-2" asChild>
-                    <Link href="/my-posts" className="flex items-center">
-                      <FileText className="mr-2 h-4 w-4" />
-                      <span>My Posts</span>
-                    </Link>
-                  </DropdownMenuItem>
+                  {userType === 'boarder' && (
+                    <DropdownMenuItem className="cursor-pointer focus:bg-blue-50 py-2" asChild>
+                      <Link href="/my-rentals" className="flex items-center">
+                        <HomeIcon className="mr-2 h-4 w-4" />
+                        <span>My Rentals</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  {userType === 'proprietor' && (
+                    <DropdownMenuItem className="cursor-pointer focus:bg-blue-50 py-2" asChild>
+                      <Link href="/my-posts" className="flex items-center">
+                        <FileText className="mr-2 h-4 w-4" />
+                        <span>My Posts</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
                     className="cursor-pointer focus:bg-red-50 text-red-600 hover:text-red-600 hover:bg-red-50 py-2" 
-                    onClick={() => signOut()}
+                    onClick={() => {
+                      localStorage.removeItem('userType');
+                      signOut();
+                    }}
                   >
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Sign Out</span>

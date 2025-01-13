@@ -1,0 +1,81 @@
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animateBlob {
+  animation: blob 7s infinite;
+}
+
+.animationDelay2000 {
+  animation-delay: 2s;
+}
+
+.animationDelay4000 {
+  animation-delay: 4s;
+}
+
+.animateSpinSlow {
+  animation: spin 12s linear infinite;
+}
+
+.shadowGlow {
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+}
+
+.fadeIn {
+  opacity: 0;
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.slideUp {
+  opacity: 0;
+  animation: slideUp 0.6s ease-out forwards;
+}
+
+.slideIn {
+  opacity: 0;
+  animation: slideIn 0.6s ease-out forwards;
+}
+
+.delay100 {
+  animation-delay: 100ms !important;
+}
+
+.delay200 {
+  animation-delay: 200ms !important;
+}
+
+.delay300 {
+  animation-delay: 300ms !important;
+}
+
+.delay400 {
+  animation-delay: 400ms !important;
+}
+
+.delay500 {
+  animation-delay: 500ms !important;
+} 

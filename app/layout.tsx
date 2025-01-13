@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { RootContent } from './root-content';
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,9 +18,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <RootContent className={`${inter.className} flex flex-col min-h-screen`}>
-        {children}
-      </RootContent>
+      <body>
+        <RootContent className={`${inter.className} flex flex-col min-h-screen`}>
+          {children}
+          <Toaster />
+        </RootContent>
+      </body>
     </html>
   );
 }
